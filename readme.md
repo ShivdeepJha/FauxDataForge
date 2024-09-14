@@ -8,6 +8,7 @@ FauxDataForge is a flexible API for generating, storing, and managing fake data 
 - Data storage and retrieval
 - File listing and deletion
 - Swagger documentation for API exploration
+- Image generation support
 
 ## Prerequisites
 
@@ -43,6 +44,31 @@ FauxDataForge is a flexible API for generating, storing, and managing fake data 
 
 For detailed information, refer to the Swagger documentation.
 
+## Image Generation
+
+FauxDataForge now supports image generation as part of the fake data creation process. You can include image fields in your schema with the following properties:
+
+- `type`: Set to "image"
+- `width`: Desired image width (default: 200)
+- `height`: Desired image height (default: 200)
+- `category`: Optional category for the image (e.g., "nature", "people", etc.)
+
+Example schema with image:
+```json
+{
+  "name": "name",
+  "email": "email",
+  "profile_picture": {
+    "type": "image",
+    "width": 300,
+    "height": 300,
+    "category": "people"
+  }
+}
+```
+
+The generated image URL will be a placeholder from picsum.photos, simulating different images for each record.
+
 ## Development
 
 - Run `npm start` to start the server with nodemon for auto-reloading during development.
@@ -61,3 +87,4 @@ This project is licensed under the ISC License.
 - [Faker.js](https://fakerjs.dev/)
 - [Swagger UI Express](https://github.com/scottie1984/swagger-ui-express)
 - [uuid](https://github.com/uuidjs/uuid)
+- [Picsum Photos](https://picsum.photos/) for image placeholders

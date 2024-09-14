@@ -25,7 +25,7 @@ const swaggerOptions = {
   swaggerDefinition: {
     openapi: '3.0.0',
     info: {
-      title: 'Fake Data API',
+      title: 'FAUXDATAFORGE - Fake Data API',
       version: '1.0.0',
       description: 'API to generate, store, and manage fake data based on a provided schema.',
     },
@@ -89,6 +89,21 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *             phone:
  *               type: string
  *               example: "987-654-3210"
+ *     Image:
+ *       type: object
+ *       properties:
+ *         type:
+ *           type: string
+ *           example: "image"
+ *         width:
+ *           type: integer
+ *           example: 200
+ *         height:
+ *           type: integer
+ *           example: 200
+ *         category:
+ *           type: string
+ *           example: "nature"
  *     DataSchema:
  *       type: object
  *       properties:
@@ -98,6 +113,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *         email:
  *           type: string
  *           example: "email"
+ *         profile_picture:
+ *           $ref: '#/components/schemas/Image'
  *         address:
  *           $ref: '#/components/schemas/Address'
  *         company:
@@ -245,12 +262,29 @@ function generateFakeData(schema) {
     if (schema.hasOwnProperty(field)) {
       const type = schema[field];
 
-      if (typeof type === 'object' && !Array.isArray(type) && type.type !== 'array') {
-        record[field] = generateFakeData(type);
-      } else if (type.type === 'array' && type.size && type.schema) {
-        const arraySize = faker.faker.number.int({ min: type.size[0], max: type.size[1] });
-        record[field] = Array.from({ length: arraySize }, () => generateFakeData(type.schema));
-      } else {
+      if (typeof type === 'object' && !Array.isArray(type)) {
+        if (type.type === 'array' && type.size && type.schema) {
+          // Handle arrays
+          const arraySize = faker.faker.number.int({ min: type.size[0], max: type.size[1] });
+          record[field] = Array.from({ length: arraySize }, () => generateFakeData(type.schema));
+        } else if (type.type === 'image') {
+          // Handle image with options
+          const width = type.width || 200;
+          const height = type.height || 200;
+          const category = type.category || '';
+          const randomNum = faker.faker.number.int(1000);
+
+          let imageUrl = `https://picsum.photos/${width}/${height}?random=${randomNum}`;
+          // If category is specified, and the service supports it, adjust the URL accordingly
+          // For simplicity, we use the random number to simulate different images
+
+          record[field] = imageUrl;
+        } else {
+          // Handle nested objects
+          record[field] = generateFakeData(type);
+        }
+      } else if (typeof type === 'string') {
+        // Handle scalar types
         switch (type) {
           case 'name':
             record[field] = faker.faker.person.fullName();
@@ -277,6 +311,9 @@ function generateFakeData(schema) {
             record[field] = faker.faker.lorem.word();
             break;
         }
+      } else {
+        // Default case for unexpected types
+        record[field] = faker.faker.lorem.word();
       }
     }
   }
