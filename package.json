@@ -1,0 +1,23 @@
+{
+  "name": "FauxDataForge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "Shivdeep Jha",
+  "license": "ISC",
+  "description": "FauxDataForge is a powerful and flexible API for generating, storing, and managing fake data based on user-defined schemas. It's built with Express.js and uses Faker.js to create realistic mock data for testing, development, and demonstration purposes.",
+  "dependencies": {
+    "@faker-js/faker": "^9.0.0",
+    "express": "^4.21.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
