@@ -64,31 +64,31 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *       properties:
  *         name:
  *           type: string
- *           example: "Fake Company"
+ *           example: "company"
  *         location:
  *           type: object
  *           properties:
  *             office:
  *               type: string
- *               example: "321 Office Road"
+ *               example: "address"
  *             phone:
  *               type: string
- *               example: "123-456-7890"
+ *               example: "phone"
  *     Friend:
  *       type: object
  *       properties:
  *         name:
  *           type: string
- *           example: "Friend Name"
+ *           example: "name"
  *         contact:
  *           type: object
  *           properties:
  *             email:
  *               type: string
- *               example: "friend@example.com"
+ *               example: "email"
  *             phone:
  *               type: string
- *               example: "987-654-3210"
+ *               example: "phone"
  *     Image:
  *       type: object
  *       properties:
@@ -120,9 +120,31 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *         company:
  *           $ref: '#/components/schemas/Company'
  *         friends:
- *           type: array
- *           items:
- *             $ref: '#/components/schemas/Friend'
+ *           type: object
+ *           properties:
+ *             type:
+ *               type: string
+ *               example: "array"
+ *             size:
+ *               type: array
+ *               items:
+ *                 type: integer
+ *               example: [1, 5]
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: "name"
+ *                 contact:
+ *                   type: object
+ *                   properties:
+ *                     email:
+ *                       type: string
+ *                       example: "email"
+ *                     phone:
+ *                       type: string
+ *                       example: "phone"
  *     GenerateDataRequest:
  *       type: object
  *       properties:
